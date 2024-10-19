@@ -1,0 +1,51 @@
+<div class="container">
+    <h2>Shopping Cart</h2>
+
+    <!-- Shopping Cart Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through cart items -->
+            <tr *ngFor="let item of cartItems">
+                <td>{{ item.product.productName }}</td>
+                <td>{{ item.product.price | currency }}</td> <!-- Format price with currency -->
+                <td>
+                    <!-- Quantity input -->
+                    <input disabled type="number" [(ngModel)]="item.quantity" min="1" (change)="updateQuantity(item)" />
+                </td>
+                <td>{{ (item.product.price * item.quantity) | currency }}</td> <!-- Format subtotal with currency -->
+                <td>
+                    <!-- Remove from cart button -->
+                    <button (click)="removeFromCart(item)" class="btn btn-danger">Remove</button>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+
+    <!-- Cart Total -->
+    <div class="cart-total">
+        <h4>Cart Total: {{ getCartTotal() | currency }}</h4> <!-- Format total with currency -->
+    </div>
+
+    <!-- Discount Code Input -->
+    <div class="discount-section">
+        <h4>Apply Discount Code</h4>
+        <input type="text" [(ngModel)]="discountCode" placeholder="Enter Discount Code" />
+        <button (click)="applyDiscount()" class="btn btn-primary">Apply Discount</button>
+    </div>
+
+    <!-- Discounted Total -->
+    <div class="discount-total">
+        <h4>Total (After Discount): {{ getTotalAfterDiscount() | currency }}</h4> <!-- Format discounted total with currency -->
+    </div>
+</div>
